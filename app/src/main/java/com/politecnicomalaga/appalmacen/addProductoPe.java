@@ -1,0 +1,73 @@
+package com.politecnicomalaga.appalmacen;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import com.politecnicomalaga.appalmacen.controller.Controlador;
+
+public class addProductoPe extends AppCompatActivity {
+
+    private EditText etCodigo, etDescripcion, etPrecio, etStock, etFecha;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_add_producto_pe);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+    }
+
+    // Este es el método que llama el botón "Crear producto" (android:onClick="crearProducto")
+    public void crearProductoPe(View view) {
+
+        // Inicializamos las referencias a los componentes de la vista
+        etCodigo = findViewById(R.id.etCodigo);
+        etDescripcion = findViewById(R.id.etDescripcion);
+        etPrecio = findViewById(R.id.etPrecio);
+        etStock = findViewById(R.id.etStock);
+        etFecha = findViewById(R.id.etFecha);
+
+
+
+
+        String codigo = etCodigo.getText().toString();
+        String desc = etDescripcion.getText().toString();
+        String precio = etPrecio.getText().toString();
+        String stock = etStock.getText().toString();
+        String fecha = etFecha.getText().toString();
+
+
+        // Validamos que no haya campos vacíos
+        if (codigo.isEmpty() || desc.isEmpty() || precio.isEmpty() || stock.isEmpty() || fecha.isEmpty()) {
+            Toast.makeText(this, "Por favor, rellena todos los campos", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Formateamos el string CSV como lo espera tu Controlador.addProductoN
+        String csv = codigo + ";" + desc + ";" + precio + ";" + stock + ";" + fecha;
+
+        // Llamamos al controlador
+        boolean exito = Controlador.getSingleton().addProductoP(csv);
+
+        if (exito) {
+            Toast.makeText(this, "Producto añadido con éxito", Toast.LENGTH_SHORT).show();
+            finish(); // Cerramos la actividad y volvemos atrás
+        } else {
+            Toast.makeText(this, "Error: El código ya existe o el formato es incorrecto", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+}
