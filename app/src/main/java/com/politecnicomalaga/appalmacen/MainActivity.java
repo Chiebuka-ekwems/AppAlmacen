@@ -50,5 +50,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void RetirarProducto (View view){
+        Intent intent = new Intent(this, retirarProducto.class);
+        startActivity(intent);
+    }
+
+    public void MostrarProductos (View view){
+        Intent intent = new Intent(this, mostrarProductos.class);
+        startActivity(intent);
+    }
+
+
+
 
 }

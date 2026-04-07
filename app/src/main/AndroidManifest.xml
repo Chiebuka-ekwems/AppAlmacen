@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppAlmacen">
         <activity
+            android:name=".mostrarProductos"
+            android:exported="false" />
+        <activity
+            android:name=".retirarProducto"
+            android:exported="false" />
+        <activity
             android:name=".modStock"
             android:exported="false" />
         <activity

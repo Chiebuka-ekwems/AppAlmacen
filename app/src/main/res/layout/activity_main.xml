@@ -97,6 +97,18 @@
 
             />
         <Button
+            android:onClick="MostrarProductos"
+            android:id="@+id/btnMostrarProductos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:text="Mostrar productos"
+            android:backgroundTint="#5BE761"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+
+            />
+        <Button
             android:onClick="MostrarSinStock"
             android:id="@+id/btnMostrarStock0"
             android:layout_width="match_parent"

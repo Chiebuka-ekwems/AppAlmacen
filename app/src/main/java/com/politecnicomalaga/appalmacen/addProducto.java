@@ -13,6 +13,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.politecnicomalaga.appalmacen.controller.Controlador;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class addProducto extends AppCompatActivity {
 
     private EditText etCodigo, etDescripcion, etPrecio, etStock;
@@ -52,6 +55,13 @@ public class addProducto extends AppCompatActivity {
             return;
         }
 
+        //Formato mapa
+        Map<String, String> datos = new HashMap<>();
+        datos.put("codigo", codigo);
+        datos.put("descripcion", desc);
+        datos.put("precio", precio);
+        datos.put("stock", stock);
+
         // Formateamos el string CSV como lo espera tu Controlador.addProductoN
         String csv = codigo + ";" + desc + ";" + precio + ";" + stock;
 
@@ -61,6 +71,7 @@ public class addProducto extends AppCompatActivity {
         if (exito) {
             Toast.makeText(this, "Producto añadido con éxito", Toast.LENGTH_SHORT).show();
             finish(); // Cerramos la actividad y volvemos atrás
+            //Actualizar la vista
         } else {
             Toast.makeText(this, "Error: El código ya existe o el formato es incorrecto", Toast.LENGTH_LONG).show();
         }
