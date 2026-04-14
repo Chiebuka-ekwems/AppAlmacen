@@ -14,10 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.gson.JsonObject;
 import com.politecnicomalaga.appalmacen.controller.Controlador;
 
-import java.util.HashMap;
-import java.util.Map;
-import com.google.gson.Gson;
-import com.politecnicomalaga.appalmacen.model.PantallaReaccionable;
+import com.politecnicomalaga.appalmacen.controller.PantallaReaccionable;
 
 public class addProducto extends AppCompatActivity implements PantallaReaccionable {
 
@@ -40,7 +37,10 @@ public class addProducto extends AppCompatActivity implements PantallaReaccionab
 
     @Override
     public void reaccionar(String mensaje) {
-        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+        runOnUiThread(() -> {
+            Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+            if (mensaje.contains("éxito")) finish();
+        });
     }
 
 

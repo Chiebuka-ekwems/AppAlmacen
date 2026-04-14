@@ -1,4 +1,4 @@
-package com.politecnicomalaga.appalmacen.model;
+package com.politecnicomalaga.appalmacen.controller;
 
 public interface PantallaReaccionable {
     void reaccionar(String mensaje);
