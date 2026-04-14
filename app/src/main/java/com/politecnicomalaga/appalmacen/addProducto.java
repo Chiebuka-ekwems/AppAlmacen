@@ -17,8 +17,9 @@ import com.politecnicomalaga.appalmacen.controller.Controlador;
 import java.util.HashMap;
 import java.util.Map;
 import com.google.gson.Gson;
+import com.politecnicomalaga.appalmacen.model.PantallaReaccionable;
 
-public class addProducto extends AppCompatActivity {
+public class addProducto extends AppCompatActivity implements PantallaReaccionable {
 
     private EditText etCodigo, etDescripcion, etPrecio, etStock;
 
@@ -27,6 +28,7 @@ public class addProducto extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_producto);
+        Controlador.getSingleton().setPantalla(this);
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -35,6 +37,12 @@ public class addProducto extends AppCompatActivity {
             return insets;
         });
     }
+
+    @Override
+    public void reaccionar(String mensaje) {
+        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+    }
+
 
     // Este es el método que llama el botón "Crear producto" (android:onClick="crearProducto")
     public void crearProducto(View view) {

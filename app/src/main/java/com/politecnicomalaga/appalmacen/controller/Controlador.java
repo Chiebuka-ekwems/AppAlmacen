@@ -23,6 +23,7 @@ public class Controlador
 {
     // instance variables
     private MainActivity miPantalla;
+    private PantallaReaccionable pantallaActiva;
 
     //ProductosA son mis productos activos
     private List <Producto> misProductosA;
@@ -58,6 +59,10 @@ public class Controlador
         if(singleton==null) singleton = new Controlador();
         return singleton;
         // Modificado por Chiebuka return null;
+    }
+
+    public void setPantalla(PantallaReaccionable pantalla) {
+        this.pantallaActiva = pantalla;
     }
     
     //Crud Productos
@@ -385,9 +390,11 @@ public class Controlador
 
                     @Override
                     public void onError(String error) {
-                        miPantalla.runOnUiThread(()->{
-                            //miPantalla.reaccionar(error);
-                        });
+                        /*miPantalla.runOnUiThread(()->{
+                            miPantalla.reaccionar(error);
+                        });*/
+                        //Puede que aun falte
+                        if(pantallaActiva!=null) pantallaActiva.reaccionar(error);
                     }
                 });
                 if (!resultado) {
