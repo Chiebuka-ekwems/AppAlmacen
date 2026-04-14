@@ -11,6 +11,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.gson.JsonObject;
 import com.politecnicomalaga.appalmacen.controller.Controlador;
 
 public class addProductoPe extends AppCompatActivity {
@@ -56,10 +57,19 @@ public class addProductoPe extends AppCompatActivity {
         }
 
         // Formateamos el string CSV como lo espera tu Controlador.addProductoN
-        String csv = codigo + ";" + desc + ";" + precio + ";" + stock + ";" + fecha;
+        //String csv = codigo + ";" + desc + ";" + precio + ";" + stock + ";" + fecha;
+
+        JsonObject jsonProducto = new JsonObject();
+        jsonProducto.addProperty("codigoProducto", codigo);
+        jsonProducto.addProperty("descripcion", desc);
+        jsonProducto.addProperty("precio", precio);
+        jsonProducto.addProperty("stock", stock);
+        jsonProducto.addProperty("fechaCaducidad", fecha);
+
+        String jsonFinal = jsonProducto.toString();
 
         // Llamamos al controlador
-        boolean exito = Controlador.getSingleton().addProductoP(csv);
+        boolean exito = Controlador.getSingleton().addProductoP(jsonFinal);
 
         if (exito) {
             Toast.makeText(this, "Producto añadido con éxito", Toast.LENGTH_SHORT).show();

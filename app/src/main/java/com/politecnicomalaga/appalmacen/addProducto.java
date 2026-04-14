@@ -11,10 +11,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.gson.JsonObject;
 import com.politecnicomalaga.appalmacen.controller.Controlador;
 
 import java.util.HashMap;
 import java.util.Map;
+import com.google.gson.Gson;
 
 public class addProducto extends AppCompatActivity {
 
@@ -55,18 +57,28 @@ public class addProducto extends AppCompatActivity {
             return;
         }
 
+        JsonObject jsonProducto = new JsonObject();
+        jsonProducto.addProperty("codigoProducto", codigo);
+        jsonProducto.addProperty("descripcion", desc);
+        jsonProducto.addProperty("precio", precio);
+        jsonProducto.addProperty("stock", stock);
+
+        String jsonFinal = jsonProducto.toString();
+
+
+
         //Formato mapa
-        Map<String, String> datos = new HashMap<>();
+        /*Map<String, String> datos = new HashMap<>();
         datos.put("codigo", codigo);
         datos.put("descripcion", desc);
         datos.put("precio", precio);
-        datos.put("stock", stock);
+        datos.put("stock", stock);*/
 
         // Formateamos el string CSV como lo espera tu Controlador.addProductoN
-        String csv = codigo + ";" + desc + ";" + precio + ";" + stock;
+        //String csv = codigo + ";" + desc + ";" + precio + ";" + stock;
 
         // Llamamos al controlador
-        boolean exito = Controlador.getSingleton().addProductoN(csv);
+        boolean exito = Controlador.getSingleton().addProductoN(jsonFinal);
 
         if (exito) {
             Toast.makeText(this, "Producto añadido con éxito", Toast.LENGTH_SHORT).show();

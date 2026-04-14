@@ -1,6 +1,16 @@
 package com.politecnicomalaga.appalmacen.controller;
+import android.content.Context;
+
+import com.google.gson.Gson;
+import com.politecnicomalaga.appalmacen.MainActivity;
 import com.politecnicomalaga.appalmacen.dataservice.BBDDAccess;
 import com.politecnicomalaga.appalmacen.model.*;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,6 +22,8 @@ import java.util.stream.Stream;
 public class Controlador
 {
     // instance variables
+    private MainActivity miPantalla;
+
     //ProductosA son mis productos activos
     private List <Producto> misProductosA;
     
@@ -34,7 +46,6 @@ public class Controlador
         misProductosA = new ArrayList<Producto>();
         misProductosA.addAll(listaDeProductosInicial);
         misProductosR = new ArrayList<Producto>();
-
         //AHora cogeremos los productos desde una base de datos aun no esta el codigo hecho
         // misProductosA = miBBDD.listAll();
 
@@ -50,7 +61,21 @@ public class Controlador
     }
     
     //Crud Productos
-    
+
+    public List<Producto> getListaCompleta() {
+        // Si tienes los productos divididos (Alimentación/Refrigerados), únelos aquí
+        List<Producto> listaUnida = new ArrayList<>();
+
+        // Suponiendo que tus listas se llaman misProductosA y misProductosR
+        listaUnida.addAll(misProductosA);
+        listaUnida.addAll(misProductosR);
+
+        // Opcional: Ordenar la lista (si tu clase Producto implementa Comparable)
+        // Collections.sort(listaUnida);
+
+        return listaUnida;
+    }
+
     //Listar por Comparable Ascendente
     public String listarProductoComAsc(int opcion){
         String resultado="";
@@ -312,7 +337,7 @@ public class Controlador
     }
     
     
-    public boolean addProductoN (String csv){
+    public boolean addProductoNOld (String csv){
         //String codigoProducto, String descripcion, double precio, int stock
         //Pongo el try catch por si me pasan menos datos de los que son
         try{
@@ -332,6 +357,50 @@ public class Controlador
             return false;
         }
         
+    }
+
+    public boolean addProductoN (String jsonRecibido){
+        //String codigoProducto, String descripcion, double precio, int stock
+        //Pongo el try catch por si me pasan menos datos de los que son
+        try{
+            Gson gson = new Gson();
+
+            Producto p = gson.fromJson(jsonRecibido, Producto.class);
+
+
+
+            for(Producto pro: misProductosA){
+                if(pro.getCodigoProducto().equals(p.getCodigoProducto()))return false;
+            }
+
+            boolean resultado =misProductosA.add(p);
+            if (resultado) {
+                BBDDAccess miBBDD = new BBDDAccess();
+                miBBDD.insertarProducto(p.getCodigoProducto(), p.getDescripcion(), p.getPrecio(), p.getStock(), new BBDDAccess.OnBBDDCallback() {
+                    @Override
+                    public void onSuccess(List<Producto> data) {
+
+
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        miPantalla.runOnUiThread(()->{
+                            //miPantalla.reaccionar(error);
+                        });
+                    }
+                });
+                if (!resultado) {
+                    misProductosA.remove(p);
+                }
+            }
+            return true;
+        } catch (Exception e){
+            System.out.println("Error. Revisa el formato de los datos.");
+            System.out.println("Detalle: " + e.getMessage());
+            return false;
+        }
+
     }
 
     public boolean addProductoN (Map<String, String> datos){
@@ -359,7 +428,7 @@ public class Controlador
 
     }
     
-    public boolean addProductoP (String csv){
+    public boolean addProductoPOld (String csv){
         //String codigoProducto, String descripcion, double precio, int stock, String fecha caducidad
         String[] datos = csv.split(";");
         
@@ -373,4 +442,39 @@ public class Controlador
         misProductosA.add(p);
         return true;
     }
+
+    public boolean addProductoP (String jsonRecibido){
+        try{
+            Gson gson = new Gson();
+
+            ProductoPerecedero p = gson.fromJson(jsonRecibido, ProductoPerecedero.class);
+
+            boolean resultado = misProductosA.add(p);
+            if(resultado){
+                //Por copiar
+            }
+            return true;
+        } catch (Exception e){
+            System.out.println("Error. Revisa el formato de los datos.");
+            System.out.println("Detalle: " + e.getMessage());
+            return false;
+        }
+    }
+
+    //Por usar
+    public boolean guardarDatosJSON(Context contexto){
+        Gson gson = new Gson();
+        String jsonLista = gson.toJson(misProductosA);
+
+        try(PrintWriter out = new PrintWriter(contexto.openFileOutput("productos.json", Context.MODE_PRIVATE))){
+            out.print(jsonLista);
+            return true;
+        }catch (IOException e){
+            e.printStackTrace();
+            return false;
+        }
+
+
+    }
+
 }

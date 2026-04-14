@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/txtFilaCodigo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="COD"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtFilaDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="Descripción" />
+
+    <!-- NUEVO CAMPO: PRECIO -->
+    <TextView
+        android:id="@+id/txtFilaPrecio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="0.00€"
+        android:gravity="end"
+        android:layout_marginEnd="10dp"
+        android:textColor="#2E7D32" /> <!-- Un color verde para el precio -->
+
+    <TextView
+        android:id="@+id/txtFilaStock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stock: 0"
+        android:textColor="@color/black" />
+</LinearLayout>

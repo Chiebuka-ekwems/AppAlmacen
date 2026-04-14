@@ -1,6 +1,10 @@
 package com.politecnicomalaga.appalmacen;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -10,8 +14,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.politecnicomalaga.appalmacen.controller.Controlador;
+import com.politecnicomalaga.appalmacen.model.Producto;
+
+import java.util.List;
 
 public class listarProductos extends AppCompatActivity {
+
+    private List<Producto> lista;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,9 +28,34 @@ public class listarProductos extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_listar_productos);
 
-        TextView productos = findViewById(R.id.tvProductos);
-        String datos = formatearDatosParaPantalla(Controlador.getSingleton().listarProductos());
-        productos.setText(datos);
+        ListView productos = findViewById(R.id.lvProductos);
+        lista = Controlador.getSingleton().getListaCompleta();
+
+        // 2. Crear el Adaptador Personalizado
+        ArrayAdapter<Producto> adapter = new ArrayAdapter<Producto>(this, R.layout.fila_producto, lista) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if (convertView == null) {
+                    convertView = getLayoutInflater().inflate(R.layout.fila_producto, parent, false);
+                }
+
+                TextView tvCod = convertView.findViewById(R.id.txtFilaCodigo);
+                TextView tvDesc = convertView.findViewById(R.id.txtFilaDesc);
+                TextView tvPrecio = convertView.findViewById(R.id.txtFilaPrecio);
+                TextView tvStock = convertView.findViewById(R.id.txtFilaStock);
+
+                Producto p = lista.get(position);
+
+                tvCod.setText(p.getCodigoProducto());
+                tvDesc.setText(p.getDescripcion());
+                tvPrecio.setText(String.format("%.2f€", p.getPrecio()));
+                tvStock.setText("Stock: " + p.getStock());
+
+                return convertView;
+            }
+        };
+
+        productos.setAdapter(adapter);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -31,11 +65,11 @@ public class listarProductos extends AppCompatActivity {
     }
 
     //He pasado este codigo al onCreate ya que No se va a llamar el metodo con un boton en ningun momento si no que se realizara el codigo de una
-    public void listandoProductos (){
-        TextView productos = findViewById(R.id.tvProductos);
+    /*public void listandoProductos (){
+        TextView productos = findViewById(R.id.lvProductos);
         productos.setText(Controlador.getSingleton().listarProductos());
 
-    }
+    }*/
 
     //Metodos para que la informacion de los productos salga de forma correcta por pantalla
     public String formatearDatosParaPantalla(String datos) {
