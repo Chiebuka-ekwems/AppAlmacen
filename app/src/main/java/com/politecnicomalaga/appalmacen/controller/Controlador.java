@@ -337,28 +337,7 @@ public class Controlador
         return null;
     }
     
-    
-    public boolean addProductoNOld (String csv){
-        //String codigoProducto, String descripcion, double precio, int stock
-        //Pongo el try catch por si me pasan menos datos de los que son
-        try{
-            String[] datos = csv.split(";");
-        
-            Producto p = new Producto(datos[0],datos[1],Double.parseDouble(datos[2]),Integer.parseInt(datos[3]));
-        
-            for(Producto pro: misProductosA){
-                if(pro.getCodigoProducto().equals(p.getCodigoProducto()))return false;
-            }
-        
-            misProductosA.add(p);
-            return true;
-        } catch (Exception e){
-            System.out.println("Error. Revisa el formato de los datos.");
-            System.out.println("Detalle: " + e.getMessage());
-            return false;
-        }
-        
-    }
+
 
     public boolean addProductoN (String jsonRecibido){
         //String codigoProducto, String descripcion, double precio, int stock
@@ -406,45 +385,8 @@ public class Controlador
 
     }
 
-    public boolean addProductoN (Map<String, String> datos){
-
-        BBDDAccess miBBDD = new BBDDAccess();
-
-        //String codigoProducto, String descripcion, double precio, int stock
-        //Pongo el try catch por si me pasan menos datos de los que son
-        try{
-
-            Producto p = new Producto(datos.get("codigo"),datos.get("descripcion"),Double.parseDouble(datos.get("precio")),Integer.parseInt(datos.get("stock")));
-            miBBDD.addProducto(p);
-
-            for(Producto pro: misProductosA){
-                if(pro.getCodigoProducto().equals(p.getCodigoProducto()))return false;
-            }
-
-            misProductosA.add(p);
-            return true;
-        } catch (Exception e){
-            System.out.println("Error. Revisa el formato de los datos.");
-            System.out.println("Detalle: " + e.getMessage());
-            return false;
-        }
-
-    }
     
-    public boolean addProductoPOld (String csv){
-        //String codigoProducto, String descripcion, double precio, int stock, String fecha caducidad
-        String[] datos = csv.split(";");
-        
-        ProductoPerecedero p = new ProductoPerecedero
-        (datos[0],datos[1],Double.parseDouble(datos[2]),Integer.parseInt(datos[3]),datos[4]);
-        
-        for(Producto pro: misProductosA){
-            if(pro.getCodigoProducto().equals(p.getCodigoProducto()))return false;
-        }
-        
-        misProductosA.add(p);
-        return true;
-    }
+
 
     public boolean addProductoP (String jsonRecibido){
         try{

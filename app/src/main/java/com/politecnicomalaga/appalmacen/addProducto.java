@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.gson.JsonObject;
+import com.google.gson.Gson;
 import com.politecnicomalaga.appalmacen.controller.Controlador;
 
 import com.politecnicomalaga.appalmacen.controller.PantallaReaccionable;

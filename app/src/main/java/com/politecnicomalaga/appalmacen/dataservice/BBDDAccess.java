@@ -28,7 +28,7 @@ public class BBDDAccess implements DataService{
 
         //Mandar un insert
 
-        return false;
+        return true;
     }
 
     public interface OnBBDDCallback {
