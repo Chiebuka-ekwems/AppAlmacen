@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class BBDDAccess implements DataService{
+public class BBDDAccess {
 
     private static final String URL = "jdbc:mysql://192.168.1.6:3306/almacen";
     private static final String USER = "almacen_user";
@@ -21,15 +21,6 @@ public class BBDDAccess implements DataService{
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
 
-
-    @Override
-    public boolean addProducto(Producto p) {
-        //Vamos a intentar conectar con la BBDD
-
-        //Mandar un insert
-
-        return true;
-    }
 
     public interface OnBBDDCallback {
         void onSuccess(List<Producto> data);
@@ -119,19 +110,4 @@ public class BBDDAccess implements DataService{
         });
     }
 
-    @Override
-    public List<Producto> listAll() {
-        List<Producto> lista = new ArrayList<>();
-
-        //Vamos a intentar conectar con la BBDD
-
-
-        //Pedimos un select
-
-
-        //COmo un select nos devuelve muchas lineas(cada linea un producto) necesitamos un bucle
-
-
-        return lista;
-    }
 }
