@@ -340,7 +340,7 @@ public class Controlador
 
 
     public boolean addProductoN (String jsonRecibido){
-        //String codigoProducto, String descripcion, double precio, int stock
+        BBDDAccess miBBDD = new BBDDAccess();
         //Pongo el try catch por si me pasan menos datos de los que son
         try{
             Gson gson = new Gson();
@@ -355,7 +355,7 @@ public class Controlador
 
             boolean resultado =misProductosA.add(p);
             if (resultado) {
-                BBDDAccess miBBDD = new BBDDAccess();
+
                 miBBDD.insertarProducto(p.getCodigoProducto(), p.getDescripcion(), p.getPrecio(), p.getStock(), new BBDDAccess.OnBBDDCallback() {
                     @Override
                     public void onSuccess(List<Producto> data) {
