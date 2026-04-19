@@ -9,9 +9,15 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.content.Intent; 
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.politecnicomalaga.appalmacen.controller.Controlador;
+import com.politecnicomalaga.appalmacen.controller.PantallaReaccionable;
+
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,4 +66,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, mostrarProductos.class);
         startActivity(intent);
     }
+
 }

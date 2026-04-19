@@ -26,7 +26,7 @@ public class addProducto extends AppCompatActivity implements PantallaReaccionab
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_producto);
-        Controlador.getSingleton().setPantalla(this);
+        Controlador.getSingleton(this);
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

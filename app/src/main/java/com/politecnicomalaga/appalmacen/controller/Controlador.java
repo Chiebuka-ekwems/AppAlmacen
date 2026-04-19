@@ -8,6 +8,7 @@ import com.politecnicomalaga.appalmacen.model.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +19,7 @@ import java.util.stream.Stream;
 public class Controlador
 {
     // instance variables
+    private Context contextApp;
     private MainActivity miPantalla;
     private PantallaReaccionable pantallaActiva;
 
@@ -26,6 +28,7 @@ public class Controlador
     
     //ProductosR son mis producots retirados
     private List <Producto> misProductosR;
+    final private List<Map<String,String>> dataResult = new ArrayList<>();
     
     //Singleton
     //poner aquí
@@ -34,25 +37,35 @@ public class Controlador
     /**
      * Constructor for objects of class Controlador
      */
-    private Controlador()
+    private Controlador(Context contexto)
     {
+        this.contextApp = contexto;
+
         BBDDAccess miBBDD = new BBDDAccess();
         List<Producto> listaDeProductosInicial = DataAccess.loadData();    
         //Poner código aquí para que la lista inicial de productos esté
         //siempre disponible cuando se arranca el programa.
         misProductosA = new ArrayList<Producto>();
-        misProductosA.addAll(listaDeProductosInicial);
+        //misProductosA.addAll(listaDeProductosInicial);
         misProductosR = new ArrayList<Producto>();
         //AHora cogeremos los productos desde una base de datos aun no esta el codigo hecho
-        // misProductosA = miBBDD.listAll();
+
 
     }
 
     
+    public static Controlador getSingleton(Context contexto)
+    {
+        // put your code here
+        if(singleton==null) singleton = new Controlador(contexto);
+        return singleton;
+        // Modificado por Chiebuka return null;
+    }
+
     public static Controlador getSingleton()
     {
         // put your code here
-        if(singleton==null) singleton = new Controlador();
+        //if(singleton==null) singleton = new Controlador(null);
         return singleton;
         // Modificado por Chiebuka return null;
     }
@@ -63,18 +76,67 @@ public class Controlador
     
     //Crud Productos
 
+    public void listarTodosBBDD() {
+
+        dataResult.clear();
+
+        BBDDAccess miBBDD = new BBDDAccess();
+        miBBDD.listarTodos(new BBDDAccess.OnBBDDCallback() {
+            @Override
+            public void onSuccess(List<Producto> data) {
+                //Actualizamos el modelo
+                misProductosA.clear();
+                //misProductosA.addAll(data);
+                //misProductosA = data;
+                //Convertir una lista de productos en una lista de maps
+                for(Producto p: data) {
+                    Map<String,String> productoMapeado = new HashMap<>();
+                    productoMapeado.put("d",p.getDescripcion());
+                    productoMapeado.put("p",String.valueOf(p.getPrecio()));
+                    productoMapeado.put("s",String.valueOf(p.getStock()));
+                    productoMapeado.put("c",p.getCodigoProducto());
+                    dataResult.add(productoMapeado);
+                    //Avisar AHORA (estoy en el futuro!!!!!)
+                    // al controlador y a la activity (Vista)
+
+                }
+                if (pantallaActiva != null) {
+                    // Cast a Activity para poder usar runOnUiThread y actualizar la lista visualmente
+                    ((android.app.Activity) pantallaActiva).runOnUiThread(() -> {
+                        pantallaActiva.reaccionar(""); // Mensaje vacío significa "Éxito"
+                    });
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                ((android.app.Activity) pantallaActiva).runOnUiThread(()->{
+                    pantallaActiva.reaccionar(error);
+                });
+            }
+        });
+
+
+    }
+
+    public List<Map<String,String>> getData() {
+        return dataResult;
+    }
+
+
+    //Metodo antiguo cuando no tenia base de datos
     public List<Producto> getListaCompleta() {
         // Si tienes los productos divididos (Alimentación/Refrigerados), únelos aquí
-        List<Producto> listaUnida = new ArrayList<>();
+        /*List<Producto> listaUnida = new ArrayList<>();
 
         // Suponiendo que tus listas se llaman misProductosA y misProductosR
         listaUnida.addAll(misProductosA);
-        listaUnida.addAll(misProductosR);
+        listaUnida.addAll(misProductosR);*/
 
         // Opcional: Ordenar la lista (si tu clase Producto implementa Comparable)
         // Collections.sort(listaUnida);
 
-        return listaUnida;
+        return this.misProductosA;
     }
 
     //Listar por Comparable Ascendente
@@ -205,7 +267,8 @@ public class Controlador
         return Producto.getCsvFormato() + "\n" + resultado;
     }
     
-    
+
+
     public String listarProductos(){
         String resultado="";
         List<Producto> misProductos = new ArrayList<Producto>();

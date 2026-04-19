@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,25 +15,31 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.politecnicomalaga.appalmacen.controller.Controlador;
+import com.politecnicomalaga.appalmacen.controller.PantallaReaccionable;
 import com.politecnicomalaga.appalmacen.model.Producto;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class listarProductos extends AppCompatActivity {
+public class listarProductos extends AppCompatActivity implements PantallaReaccionable {
 
     private List<Producto> lista;
+    private ArrayAdapter<Producto> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_listar_productos);
-
+        Controlador.getSingleton(this);
         ListView productos = findViewById(R.id.lvProductos);
-        lista = Controlador.getSingleton().getListaCompleta();
+        //lista = Controlador.getSingleton().getListaCompleta();
+
 
         // 2. Crear el Adaptador Personalizado
-        ArrayAdapter<Producto> adapter = new ArrayAdapter<Producto>(this, R.layout.fila_producto, lista) {
+        lista = new ArrayList<>();
+         adapter = new ArrayAdapter<Producto>(this, R.layout.fila_producto, lista) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 if (convertView == null) {
@@ -45,17 +52,23 @@ public class listarProductos extends AppCompatActivity {
                 TextView tvStock = convertView.findViewById(R.id.txtFilaStock);
 
                 Producto p = lista.get(position);
+                ((TextView)convertView.findViewById(R.id.txtFilaCodigo)).setText(p.getCodigoProducto());
+                ((TextView)convertView.findViewById(R.id.txtFilaDesc)).setText(p.getDescripcion());
+                ((TextView)convertView.findViewById(R.id.txtFilaPrecio)).setText(p.getPrecio() + "€");
+                ((TextView)convertView.findViewById(R.id.txtFilaStock)).setText("Stock: " + p.getStock());
 
+                /*
                 tvCod.setText(p.getCodigoProducto());
                 tvDesc.setText(p.getDescripcion());
                 tvPrecio.setText(String.format("%.2f€", p.getPrecio()));
-                tvStock.setText("Stock: " + p.getStock());
+                tvStock.setText("Stock: " + p.getStock());*/
 
                 return convertView;
             }
         };
 
         productos.setAdapter(adapter);
+        Controlador.getSingleton().listarTodosBBDD();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -120,5 +133,30 @@ public class listarProductos extends AppCompatActivity {
         }
         lineaFormateada.append("|");
         return lineaFormateada.toString();
+    }
+
+    @Override
+    public void reaccionar(String error) {
+
+        if (error.isEmpty()) {
+            List<Map<String, String>> datos = Controlador.getSingleton(this).getData();
+
+            //Mostrarlos
+            ListView miListaEnPantalla = findViewById(R.id.lvProductos);
+
+            ArrayAdapter<String> miAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+            for (Map<String, String> unProducto : datos) {
+                String resultado = unProducto.get("d") + " - " + unProducto.get("c") + " - " + unProducto.get("p") + " - " + unProducto.get("s");
+                miAdapter.add(resultado);
+            }
+
+            miListaEnPantalla.setAdapter(miAdapter);
+        } else {
+            ListView miListaEnPantalla = findViewById(R.id.lvProductos);
+
+            ArrayAdapter<String> miAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+            miAdapter.add(error);
+            miListaEnPantalla.setAdapter(miAdapter);
+        }
     }
 }
