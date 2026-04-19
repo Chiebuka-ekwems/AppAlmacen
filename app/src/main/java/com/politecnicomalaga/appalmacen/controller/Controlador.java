@@ -110,9 +110,11 @@ public class Controlador
 
             @Override
             public void onError(String error) {
-                ((android.app.Activity) pantallaActiva).runOnUiThread(()->{
-                    pantallaActiva.reaccionar(error);
-                });
+                if (pantallaActiva != null) {
+                    ((android.app.Activity) pantallaActiva).runOnUiThread(()->{
+                        pantallaActiva.reaccionar(error);
+                    });
+                }
             }
         });
 

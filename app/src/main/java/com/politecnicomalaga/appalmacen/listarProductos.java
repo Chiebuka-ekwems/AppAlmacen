@@ -32,7 +32,9 @@ public class listarProductos extends AppCompatActivity implements PantallaReacci
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_listar_productos);
-        Controlador.getSingleton(this);
+
+        Controlador miControlador = Controlador.getSingleton(this);
+        miControlador.setPantalla(this);
         ListView productos = findViewById(R.id.lvProductos);
         //lista = Controlador.getSingleton().getListaCompleta();
 
@@ -68,7 +70,7 @@ public class listarProductos extends AppCompatActivity implements PantallaReacci
         };
 
         productos.setAdapter(adapter);
-        Controlador.getSingleton().listarTodosBBDD();
+        miControlador.listarTodosBBDD();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

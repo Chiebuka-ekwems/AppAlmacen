@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 
 public class BBDDAccess {
 
-    private static final String URL = "jdbc:mysql://192.168.1.6:3307/almacen";
+    private static final String URL = "jdbc:mysql://192.168.1.6:3307/almacen?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USER = "almacen_user";
     private static final String PASS = "onlyforyoureyes";
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -55,10 +55,10 @@ public class BBDDAccess {
 
             } catch (SQLException e) {
                 int i = 0;
-                if (callback != null) callback.onError(e.getMessage());
+                if (callback != null) callback.onError(e.getMessage() != null ? e.getMessage() : "Error SQL desconocido");
             } catch (Exception e) {
                 int i = 0;
-                if (callback != null) callback.onError(e.getMessage());
+                if (callback != null) callback.onError(e.getMessage() != null ? e.getMessage() : "Error de conexión o de Java: " + e.toString());
             } finally {
                 try {
                     if (rs != null) rs.close();
