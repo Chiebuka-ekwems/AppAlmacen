@@ -86,7 +86,7 @@ public class Controlador
             public void onSuccess(List<Producto> data) {
                 //Actualizamos el modelo
                 misProductosA.clear();
-                //misProductosA.addAll(data);
+                misProductosA.addAll(data);
                 //misProductosA = data;
                 //Convertir una lista de productos en una lista de maps
                 for(Producto p: data) {

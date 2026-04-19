@@ -36,7 +36,7 @@ public class BBDDAccess {
             PreparedStatement pstmt = null;
             ResultSet rs = null;
             try {
-                //Class.forName("com.mysql.jdbc.Driver");
+                Class.forName("com.mysql.jdbc.Driver");
                 conn = DriverManager.getConnection(URL, USER, PASS);
                 String sql = "SELECT codigo, descripcion, precio, stock from Productos";
 
@@ -54,6 +54,9 @@ public class BBDDAccess {
                     callback.onSuccess(listaProductos);
 
             } catch (SQLException e) {
+                int i = 0;
+                if (callback != null) callback.onError(e.getMessage());
+            } catch (Exception e) {
                 int i = 0;
                 if (callback != null) callback.onError(e.getMessage());
             } finally {

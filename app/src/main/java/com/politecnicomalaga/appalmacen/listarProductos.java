@@ -139,6 +139,15 @@ public class listarProductos extends AppCompatActivity implements PantallaReacci
     public void reaccionar(String error) {
 
         if (error.isEmpty()) {
+            // 1. Limpiamos la lista actual para no duplicar datos
+            lista.clear();
+
+            // 2. Obtenemos los productos reales del Controlador
+            lista.addAll(Controlador.getSingleton(this).getListaCompleta());
+
+            // 3. ¡MUY IMPORTANTE! Avisamos al adaptador personalizado de que los datos han cambiado
+            adapter.notifyDataSetChanged();
+            /*
             List<Map<String, String>> datos = Controlador.getSingleton(this).getData();
 
             //Mostrarlos
@@ -150,13 +159,15 @@ public class listarProductos extends AppCompatActivity implements PantallaReacci
                 miAdapter.add(resultado);
             }
 
-            miListaEnPantalla.setAdapter(miAdapter);
+            miListaEnPantalla.setAdapter(miAdapter);*/
         } else {
-            ListView miListaEnPantalla = findViewById(R.id.lvProductos);
+            /*ListView miListaEnPantalla = findViewById(R.id.lvProductos);
 
             ArrayAdapter<String> miAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
             miAdapter.add(error);
-            miListaEnPantalla.setAdapter(miAdapter);
+            miListaEnPantalla.setAdapter(miAdapter);*/
+            Toast.makeText(this, "Error: " + error, Toast.LENGTH_LONG).show();
+
         }
     }
 }
