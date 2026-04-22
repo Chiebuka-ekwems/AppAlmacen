@@ -388,31 +388,34 @@ public class Controlador
         //Cambiar
         BBDDAccess miBBDD = new BBDDAccess();
         Producto p = getProductoPorCode(codigoP);
-        if(p!=null){
-           boolean exito = p.changeStock(nStock);
-           guardarDatosJSON(contexto);
+        if(p!=null) {
+            boolean exito = p.changeStock(nStock);
+            guardarDatosJSON(contexto);
 
             boolean esPerecedero = p instanceof ProductoPerecedero;
-           miBBDD.modStock(codigoP, nStock, esPerecedero, new BBDDAccess.OnBBDDCallback() {
-               @Override
-               public void onSuccess(List<Producto> data) {
-                   if(pantallaActiva != null) {
-                       ((android.app.Activity) pantallaActiva).runOnUiThread(() -> {
-                           pantallaActiva.reaccionar(""); // Mensaje vacío = Éxito
-                       });
-                   }
+            if (exito) {
+                miBBDD.modStock(codigoP, nStock, esPerecedero, new BBDDAccess.OnBBDDCallback() {
+                    @Override
+                    public void onSuccess(List<Producto> data) {
+                        /*if (pantallaActiva != null) {
+                            ((android.app.Activity) pantallaActiva).runOnUiThread(() -> {
+                                pantallaActiva.reaccionar(""); // Mensaje vacío = Éxito
+                            });
+                        }*/
 
-               }
-               @Override
-               public void onError(String error) {
+                    }
+
+                    @Override
+                    public void onError(String error) {
                         /*miPantalla.runOnUiThread(()->{
                             miPantalla.reaccionar(error);
                         });*/
-                   //Puede que aun falte
-                   if(pantallaActiva!=null) pantallaActiva.reaccionar(error);
-               }
-           });
-           return true;
+                        //Puede que aun falte
+                        if (pantallaActiva != null) pantallaActiva.reaccionar(error);
+                    }
+                });
+                return true;
+            }
         }
         return false;  
         

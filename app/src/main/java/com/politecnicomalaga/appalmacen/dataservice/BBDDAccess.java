@@ -224,7 +224,7 @@ public class BBDDAccess {
                 Class.forName("com.mysql.jdbc.Driver");
                 conn = DriverManager.getConnection(URL, USER, PASS);
                 String tabla = esPerecedero ? "ProductosPerecederos" : "Productos";
-                String sql = "UPDATE"  + tabla + "set stock = stock - ? where codigo = ?";
+                String sql = "UPDATE "  + tabla + " set stock = stock + ? where codigo = ?";
 
                 pstmt = conn.prepareStatement(sql);
                 pstmt.setString(2, codigo);
