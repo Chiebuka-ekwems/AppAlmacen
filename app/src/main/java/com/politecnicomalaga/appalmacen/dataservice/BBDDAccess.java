@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 
 public class BBDDAccess {
 
-    private static final String URL = "jdbc:mysql://192.168.56.70:3307/almacen?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    private static final String URL = "jdbc:mysql://192.168.1.6:3307/almacen?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USER = "almacen_user";
     private static final String PASS = "onlyforyoureyes";
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -213,7 +213,7 @@ public class BBDDAccess {
         });
     }
 
-    public void modStock(final String codigo,final int stock,
+    public void modStock(final String codigo,final int stock, final boolean esPerecedero,
                                  final OnBBDDCallback callback) {
         //El código a ejecutar, se lo pasamos al sistema con una Lambda
         executorService.execute(() -> {
@@ -223,7 +223,8 @@ public class BBDDAccess {
                 // Cargar el driver (necesario en algunas versiones de Android)
                 Class.forName("com.mysql.jdbc.Driver");
                 conn = DriverManager.getConnection(URL, USER, PASS);
-                String sql = "UPDATE Productos set stock = stock - ? where codigo = ?";
+                String tabla = esPerecedero ? "ProductosPerecederos" : "Productos";
+                String sql = "UPDATE"  + tabla + "set stock = stock - ? where codigo = ?";
 
                 pstmt = conn.prepareStatement(sql);
                 pstmt.setString(2, codigo);

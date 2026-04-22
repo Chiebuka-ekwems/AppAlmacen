@@ -391,7 +391,9 @@ public class Controlador
         if(p!=null){
            boolean exito = p.changeStock(nStock);
            guardarDatosJSON(contexto);
-           miBBDD.modStock(codigoP, nStock, new BBDDAccess.OnBBDDCallback() {
+
+            boolean esPerecedero = p instanceof ProductoPerecedero;
+           miBBDD.modStock(codigoP, nStock, esPerecedero, new BBDDAccess.OnBBDDCallback() {
                @Override
                public void onSuccess(List<Producto> data) {
                    if(pantallaActiva != null) {

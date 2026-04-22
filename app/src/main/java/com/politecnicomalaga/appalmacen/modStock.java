@@ -48,25 +48,46 @@ public class modStock extends AppCompatActivity implements PantallaReaccionable 
         miProducto = Controlador.getSingleton().getProductoPorCode(codigo);
 
         TextView stockActual = findViewById(R.id.tvStockActual2);
-        stockActual.setText(String.valueOf(miProducto.getStock()));
+        if(miProducto != null){
+            stockActual.setText(String.valueOf(miProducto.getStock()));
+        } else {
+            Toast.makeText(this, "Error: Producto no encontrado", Toast.LENGTH_SHORT).show();
+            stockActual.setText("");
+        }
+
 
     }
 
     public void modStock2 (View view) {
-        TextView tvStock = findViewById(R.id.tvStockNuevo2);
-        EditText etStock = findViewById(R.id.etStockMod);
-        int stock = Integer.parseInt(etStock.getText().toString());
 
-        int nuevoStock = miProducto.getStock() - stock;
-        tvStock.setText(String.valueOf(nuevoStock));
-
-        boolean exito = Controlador.getSingleton().updateStock(miProducto.getCodigoProducto(), stock, this);
-
-        if (exito) {
-            Toast.makeText(this, "Stock modificado con éxito", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(this, "Error al modificar el stock", Toast.LENGTH_SHORT).show();
+        if (miProducto == null) {
+            Toast.makeText(this, "Por favor, busca un producto primero", Toast.LENGTH_SHORT).show();
+            return;
         }
 
+
+        TextView tvStock = findViewById(R.id.tvStockNuevo2);
+        EditText etStock = findViewById(R.id.etStockMod);
+
+        try {
+
+
+            int stock = Integer.parseInt(etStock.getText().toString());
+
+            int nuevoStock = miProducto.getStock() - stock;
+            tvStock.setText(String.valueOf(nuevoStock));
+
+            boolean exito = Controlador.getSingleton().updateStock(miProducto.getCodigoProducto(), stock, this);
+
+            if (exito) {
+                Toast.makeText(this, "Stock modificado con éxito", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Error al modificar el stock", Toast.LENGTH_SHORT).show();
+            }
+        }catch (NumberFormatException e) {
+            Toast.makeText(this, "Por favor, introduce un número válido para el stock", Toast.LENGTH_SHORT).show();
+        }
     }
+
+
 }
