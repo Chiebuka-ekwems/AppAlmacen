@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.politecnicomalaga.appalmacen.controller.Controlador;
 import com.politecnicomalaga.appalmacen.controller.PantallaReaccionable;
 import com.politecnicomalaga.appalmacen.model.Producto;
+import com.politecnicomalaga.appalmacen.model.ProductoPerecedero;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,12 +53,24 @@ public class listarProductos extends AppCompatActivity implements PantallaReacci
                 TextView tvDesc = convertView.findViewById(R.id.txtFilaDesc);
                 TextView tvPrecio = convertView.findViewById(R.id.txtFilaPrecio);
                 TextView tvStock = convertView.findViewById(R.id.txtFilaStock);
+                TextView tvFecha = convertView.findViewById(R.id.txtFilaFecha);
+
+                //Pendiente de terminar
 
                 Producto p = lista.get(position);
                 ((TextView)convertView.findViewById(R.id.txtFilaCodigo)).setText(p.getCodigoProducto());
                 ((TextView)convertView.findViewById(R.id.txtFilaDesc)).setText(p.getDescripcion());
                 ((TextView)convertView.findViewById(R.id.txtFilaPrecio)).setText(p.getPrecio() + "€");
                 ((TextView)convertView.findViewById(R.id.txtFilaStock)).setText("Stock: " + p.getStock());
+
+                //Compruebo ahora si es un producto perecedero para que muestre la fecha
+                if (p instanceof ProductoPerecedero) {
+                    ProductoPerecedero pp = (ProductoPerecedero) p;
+                    tvFecha.setText("Caduca: " + pp.getFechaCaducidad());
+                    tvFecha.setVisibility(View.VISIBLE);
+                } else {
+                    tvFecha.setVisibility(View.GONE); // Lo ocultas si es un producto normal
+                }
 
                 /*
                 tvCod.setText(p.getCodigoProducto());

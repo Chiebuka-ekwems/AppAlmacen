@@ -203,10 +203,10 @@ public class Main
         try{
             int nStock= sc.nextInt();
         
-            boolean cambiado = Controlador.getSingleton().updateStock(codigoP,nStock);
+            //boolean cambiado = Controlador.getSingleton().updateStock(codigoP,nStock,this);
         
-            if (cambiado) println("Stock cambiado con exito");
-            else println("Error al cambiar stock");
+            //if (cambiado) println("Stock cambiado con exito");
+            //else println("Error al cambiar stock");
         }catch(Exception e){
             System.out.println("Has introducido un dato no válido.");
             System.out.println("Detalle del error: " + e.getMessage());

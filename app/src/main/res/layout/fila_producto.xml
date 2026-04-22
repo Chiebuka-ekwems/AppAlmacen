@@ -38,4 +38,14 @@
         android:layout_height="wrap_content"
         android:text="Stock: 0"
         android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/txtFilaFecha"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="Caduca: "
+        android:layout_marginLeft="5dp"
+        android:visibility="gone"
+        />
 </LinearLayout>

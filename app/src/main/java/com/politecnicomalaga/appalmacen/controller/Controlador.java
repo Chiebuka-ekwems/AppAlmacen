@@ -384,11 +384,32 @@ public class Controlador
         return false;
     }
     
-    public boolean updateStock (String codigoP, int nStock){
+    public boolean updateStock (String codigoP, int nStock, Context contexto){
         //Cambiar
+        BBDDAccess miBBDD = new BBDDAccess();
         Producto p = getProductoPorCode(codigoP);
         if(p!=null){
-           p.changeStock(nStock);
+           boolean exito = p.changeStock(nStock);
+           guardarDatosJSON(contexto);
+           miBBDD.modStock(codigoP, nStock, new BBDDAccess.OnBBDDCallback() {
+               @Override
+               public void onSuccess(List<Producto> data) {
+                   if(pantallaActiva != null) {
+                       ((android.app.Activity) pantallaActiva).runOnUiThread(() -> {
+                           pantallaActiva.reaccionar(""); // Mensaje vacío = Éxito
+                       });
+                   }
+
+               }
+               @Override
+               public void onError(String error) {
+                        /*miPantalla.runOnUiThread(()->{
+                            miPantalla.reaccionar(error);
+                        });*/
+                   //Puede que aun falte
+                   if(pantallaActiva!=null) pantallaActiva.reaccionar(error);
+               }
+           });
            return true;
         }
         return false;  
@@ -463,9 +484,7 @@ public class Controlador
             ProductoPerecedero p = gson.fromJson(jsonRecibido, ProductoPerecedero.class);
 
             for(Producto pro: misProductosA){
-                if (pro instanceof ProductoPerecedero){
-                    if(pro.getCodigoProducto().equals(p.getCodigoProducto()))return false;
-                }
+                if(pro.getCodigoProducto().equals(p.getCodigoProducto()))return false;
             }
 
             boolean resultado = misProductosA.add(p);

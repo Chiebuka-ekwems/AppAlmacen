@@ -52,9 +52,9 @@ public class Producto implements Comparable<Producto>{
         return stock;
     }
 
-    public void changeStock(int newStock) {
-        if (this.stock + newStock < 0) return; //nunca tenemos stock negativo
-        this.stock += newStock;  //si newStock es negativo, se quita al almacén unidades del producto
+    public boolean changeStock(int newStock) {
+        if (this.stock + newStock < 0) return false; //nunca tenemos stock negativo
+        this.stock += newStock; return true; //si newStock es negativo, se quita al almacén unidades del producto
     }
 
     // Método para mostrar la información del producto. CSV Plus

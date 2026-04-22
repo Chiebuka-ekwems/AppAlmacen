@@ -1,6 +1,7 @@
 package com.politecnicomalaga.appalmacen.dataservice;
 
 import com.politecnicomalaga.appalmacen.model.Producto;
+import com.politecnicomalaga.appalmacen.model.ProductoPerecedero;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -29,6 +30,68 @@ public class BBDDAccess {
 
     //método para obtener los productos. Se conecta y ejecuta el select
     public void listarTodos(final OnBBDDCallback callback) {
+
+        executorService.execute(() -> {
+            List<Producto> listaProductos = new ArrayList<>();
+            Connection conn = null;
+            PreparedStatement pstmt = null;
+            ResultSet rs = null;
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                conn = DriverManager.getConnection(URL, USER, PASS);
+                String sql = "SELECT codigo, descripcion, precio, stock from Productos";
+
+                pstmt = conn.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    Producto p = new Producto(rs.getString("codigo"),
+                            rs.getString("descripcion"),
+                            rs.getDouble("precio"),
+                            rs.getInt("stock") );
+
+                    listaProductos.add(p);
+                }
+                sql = "SELECT codigo, descripcion, precio, stock, fecha_caducidad from ProductosPerecederos";
+
+                pstmt = conn.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    ProductoPerecedero pp = new ProductoPerecedero(rs.getString("codigo"),
+                            rs.getString("descripcion"),
+                            rs.getDouble("precio"),
+                            rs.getInt("stock"),
+                            rs.getString("fecha_caducidad"));
+
+                    listaProductos.add(pp);
+                }
+                if (callback != null)
+                    callback.onSuccess(listaProductos);
+
+            } catch (SQLException e) {
+                int i = 0;
+                if (callback != null) callback.onError(e.getMessage() != null ? e.getMessage() : "Error SQL desconocido");
+            } catch (Exception e) {
+                int i = 0;
+                if (callback != null) callback.onError(e.getMessage() != null ? e.getMessage() : "Error de conexión o de Java: " + e.toString());
+            } finally {
+                try {
+                    if (rs != null) rs.close();
+                } catch (SQLException ignored) {
+                }
+                try {
+                    if (pstmt != null)
+                        pstmt.close();
+                } catch (SQLException ignored) {
+                }
+                try {
+                    if (conn != null) conn.close();
+                } catch (SQLException ignored) {
+                }
+            }
+        });
+    }
+
+    public void listarProductos(final OnBBDDCallback callback) {
 
         executorService.execute(() -> {
             List<Producto> listaProductos = new ArrayList<>();
@@ -135,6 +198,36 @@ public class BBDDAccess {
                 pstmt.setInt(4, stock);
                 pstmt.setString(5, fecha);
 
+
+                pstmt.executeUpdate();
+                // Si todo sale bien, notificamos al hilo principal
+                if (callback != null) callback.onSuccess(null);
+            } catch (Exception e) {
+                if (callback != null) callback.onError(e.getMessage());
+            } finally {
+                try { if (pstmt != null) pstmt.close(); } catch (SQLException
+                        ignored) {}
+                try { if (conn != null) conn.close(); } catch (SQLException
+                        ignored) {}
+            }
+        });
+    }
+
+    public void modStock(final String codigo,final int stock,
+                                 final OnBBDDCallback callback) {
+        //El código a ejecutar, se lo pasamos al sistema con una Lambda
+        executorService.execute(() -> {
+            Connection conn = null;
+            PreparedStatement pstmt = null;
+            try {
+                // Cargar el driver (necesario en algunas versiones de Android)
+                Class.forName("com.mysql.jdbc.Driver");
+                conn = DriverManager.getConnection(URL, USER, PASS);
+                String sql = "UPDATE Productos set stock = stock - ? where codigo = ?";
+
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setString(2, codigo);
+                pstmt.setInt(1, stock);
 
                 pstmt.executeUpdate();
                 // Si todo sale bien, notificamos al hilo principal
