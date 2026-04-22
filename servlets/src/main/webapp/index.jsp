@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -52,7 +53,7 @@
 <body>
 
 <div class="main-container">
-    <h1>Gestión de Almacén</h1>
+    <h1>Gestión de Almacen</h1>
 
     <a href="addProducto" class="android-btn">Añadir Producto</a>
     <a href="addProductoPe" class="android-btn">Añadir Producto Perecedero</a>

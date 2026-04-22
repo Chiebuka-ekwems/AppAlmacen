@@ -114,4 +114,39 @@ public class BBDDAccess {
         });
     }
 
+    public void insertarProductoP(final String codigo, final String descripcion,
+                                 final double precio, final int stock,
+                                 final OnBBDDCallback callback) {
+        //El código a ejecutar, se lo pasamos al sistema con una Lambda
+        executorService.execute(() -> {
+            Connection conn = null;
+            PreparedStatement pstmt = null;
+            try {
+                // Cargar el driver (necesario en algunas versiones de Android)
+                Class.forName("com.mysql.jdbc.Driver");
+                conn = DriverManager.getConnection(URL, USER, PASS);
+                String sql = "INSERT INTO Productos"
+
+                        + " (codigo, descripcion, precio, stock) VALUES (?, ?, ?, ?)";
+
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, codigo);
+                pstmt.setString(2, descripcion);
+                pstmt.setDouble(3, precio);
+                pstmt.setInt(4, stock);
+
+                pstmt.executeUpdate();
+                // Si todo sale bien, notificamos al hilo principal
+                if (callback != null) callback.onSuccess(null);
+            } catch (Exception e) {
+                if (callback != null) callback.onError(e.getMessage());
+            } finally {
+                try { if (pstmt != null) pstmt.close(); } catch (SQLException
+                        ignored) {}
+                try { if (conn != null) conn.close(); } catch (SQLException
+                        ignored) {}
+            }
+        });
+    }
+
 }
