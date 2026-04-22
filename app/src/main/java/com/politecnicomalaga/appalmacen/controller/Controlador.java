@@ -415,7 +415,9 @@ public class Controlador
 
 
             for(Producto pro: misProductosA){
-                if(pro.getCodigoProducto().equals(p.getCodigoProducto()))return false;
+                if (pro instanceof Producto){
+                    if(pro.getCodigoProducto().equals(p.getCodigoProducto()))return false;
+                }
             }
 
             boolean resultado =misProductosA.add(p);
@@ -454,14 +456,40 @@ public class Controlador
 
 
     public boolean addProductoP (String jsonRecibido){
+        BBDDAccess miBBDD = new BBDDAccess();
         try{
             Gson gson = new Gson();
 
             ProductoPerecedero p = gson.fromJson(jsonRecibido, ProductoPerecedero.class);
 
+            for(Producto pro: misProductosA){
+                if (pro instanceof ProductoPerecedero){
+                    if(pro.getCodigoProducto().equals(p.getCodigoProducto()))return false;
+                }
+            }
+
             boolean resultado = misProductosA.add(p);
             if(resultado){
                 //Por copiar
+                miBBDD.insertarProductoP(p.getCodigoProducto(), p.getDescripcion(), p.getPrecio(), p.getStock(),p.getFechaCaducidad(), new BBDDAccess.OnBBDDCallback() {
+                    @Override
+                    public void onSuccess(List<Producto> data) {
+
+
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        /*miPantalla.runOnUiThread(()->{
+                            miPantalla.reaccionar(error);
+                        });*/
+                        //Puede que aun falte
+                        if(pantallaActiva!=null) pantallaActiva.reaccionar(error);
+                    }
+                });
+                if (!resultado) {
+                    misProductosA.remove(p);
+                }
             }
             return true;
         } catch (Exception e){

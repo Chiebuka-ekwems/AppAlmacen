@@ -13,8 +13,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.gson.JsonObject;
 import com.politecnicomalaga.appalmacen.controller.Controlador;
+import com.politecnicomalaga.appalmacen.controller.PantallaReaccionable;
 
-public class addProductoPe extends AppCompatActivity {
+public class addProductoPe extends AppCompatActivity implements PantallaReaccionable {
 
     private EditText etCodigo, etDescripcion, etPrecio, etStock, etFecha;
 
@@ -23,10 +24,21 @@ public class addProductoPe extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_producto_pe);
+        Controlador.getSingleton(this);
+
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+    }
+
+    @Override
+    public void reaccionar(String mensaje) {
+        runOnUiThread(() -> {
+            Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+            if (mensaje.contains("éxito")) finish();
         });
     }
 
