@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConexionDB {
-    private static final String URL = "jdbc:mysql://192.168.56.70:3307/almacen";
+    private static final String URL = "jdbc:mysql://192.168.1.6:3307/almacen";
     private static final String USER = "almacen_user";
     private static final String PASSWORD = "onlyforyoureyes";
 

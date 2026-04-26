@@ -99,7 +99,7 @@
     function cargarProductos() {
         // Ejemplo de llamada a tu Servlet
 
-        fetch('/ListaProductosServlet')
+        fetch('listar')
             .then(response => response.json())
             .then(data => {
                 renderizarTabla(data);
@@ -107,11 +107,13 @@
 
 
         // Datos de prueba (MOCK) para que veas cómo queda visualmente hasta que conectes el Servlet
+        /*
         const datosPrueba = [
             { codigo: "TECL5678X", descripcion: "Teclado RGB", precio: 89.99, stock: 45, caducidad: "N/A" },
             { codigo: "LECHE123", descripcion: "Leche Entera", precio: 1.20, stock: 100, caducidad: "20241231" }
         ];
         renderizarTabla(datosPrueba);
+        */
     }
 
     function renderizarTabla(productos) {
@@ -124,7 +126,7 @@
                     <td>${p.descripcion}</td>
                     <td>${p.precio}</td>
                     <td>${p.stock}</td>
-                    <td>${p.caducidad || "-"}</td>
+                    <td>${p.fecha_caducidad || "-"}</td>
                 `;
             tbody.appendChild(tr);
         });

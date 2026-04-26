@@ -47,7 +47,7 @@ public class BBDDAccess {
 
 
         // Productos Perecederos
-        sql = "SELECT codigo, descripcion, precio, stock, fecha_caducidad from Productos";
+        sql = "SELECT codigo, descripcion, precio, stock, fecha_caducidad from ProductosPerecederos";
         rs = stmt.executeQuery(sql);
         while (rs.next()) {
             listaResultado.add(new ProductoPerecedero(rs.getString("codigo"),
