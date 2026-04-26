@@ -98,13 +98,13 @@
     // 1. Cargar Productos
     function cargarProductos() {
         // Ejemplo de llamada a tu Servlet
-        /*
+
         fetch('/ListaProductosServlet')
             .then(response => response.json())
             .then(data => {
                 renderizarTabla(data);
             });
-        */
+
 
         // Datos de prueba (MOCK) para que veas cómo queda visualmente hasta que conectes el Servlet
         const datosPrueba = [

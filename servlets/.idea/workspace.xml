@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="81de481b-a201-432e-9a12-4b3473b853ca" name="Changes" comment="Empiezo a pasar cosas a la rama servlets">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/Controller/Controlador.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/Controller/DataAccess.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/dataservice/ConexionDB.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/view/ListarProductosServlet.java" afterDir="false" />
+    <list default="true" id="81de481b-a201-432e-9a12-4b3473b853ca" name="Changes" comment="Ajusto el codigo para empezar a probar el mapeo de botones por ahora solo el listar Todos desde la web">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/dataservice/BBDDAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/dataservice/BBDDAccess.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/dataservice/DataAccess_Old.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +14,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="19" />
+    <option name="cachedIndexableFilesCount" value="20" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -56,6 +51,8 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.servlets [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.servlets [package].executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -73,9 +70,10 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.importing&quot;,
     &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -211,7 +209,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776932777839</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Ajusto el codigo para empezar a probar el mapeo de botones por ahora solo el listar Todos desde la web">
+      <option name="closed" value="true" />
+      <created>1777233940582</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1777233940582</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -221,6 +227,7 @@
     <MESSAGE value="Intento poner en marcha los servlets" />
     <MESSAGE value="Intento cambiar el index.jsp y que se vea reflejado en la web" />
     <MESSAGE value="Empiezo a pasar cosas a la rama servlets" />
-    <option name="LAST_COMMIT_MESSAGE" value="Empiezo a pasar cosas a la rama servlets" />
+    <MESSAGE value="Ajusto el codigo para empezar a probar el mapeo de botones por ahora solo el listar Todos desde la web" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ajusto el codigo para empezar a probar el mapeo de botones por ahora solo el listar Todos desde la web" />
   </component>
 </project>
