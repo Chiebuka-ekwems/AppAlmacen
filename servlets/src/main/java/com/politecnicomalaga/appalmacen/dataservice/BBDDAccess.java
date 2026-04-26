@@ -1,24 +1,21 @@
 package com.politecnicomalaga.appalmacen.dataservice;
 
 import com.politecnicomalaga.appalmacen.model.Producto;
+import com.politecnicomalaga.appalmacen.model.ProductoPerecedero;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.sql.DriverManager;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class BBDDAccess {
 
-    private static final String URL = "jdbc:mysql://192.168.1.6:3307/almacen?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USER = "almacen_user";
-    private static final String PASS = "onlyforyoureyes";
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    //método para obtener los productos. Se conecta y ejecuta el select
+    //No sabe se "vive" en una aplicación Java tradicional, en un ExecuteService de Android,
+    //en un servlet... Simplemente "pide" a la BBDD la ejecución de SQL y obtiene los datos
+    //para convertirlo en objetos del modelo.
 
 
 
@@ -29,91 +26,121 @@ public class BBDDAccess {
     }
 
     //método para obtener los productos. Se conecta y ejecuta el select
-    public void listarTodos(final OnBBDDCallback callback) {
+    public List<Producto> listarTodos() throws SQLException,ClassNotFoundException {
 
-        executorService.execute(() -> {
-            List<Producto> listaProductos = new ArrayList<>();
-            Connection conn = null;
-            PreparedStatement pstmt = null;
-            ResultSet rs = null;
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                conn = DriverManager.getConnection(URL, USER, PASS);
-                String sql = "SELECT codigo, descripcion, precio, stock from Productos";
+        Connection conn = null;
+        List<Producto> listaResultado = new ArrayList<>();
 
-                pstmt = conn.prepareStatement(sql);
-                rs = pstmt.executeQuery();
-                while (rs.next()) {
-                    Producto p = new Producto(rs.getString("codigo"),
-                            rs.getString("descripcion"),
-                            rs.getDouble("precio"),
-                            rs.getInt("stock") );
+        conn = ConexionDB.getConnection();
 
-                    listaProductos.add(p);
-                }
-                if (callback != null)
-                    callback.onSuccess(listaProductos);
+        // Productos normales
+        String sql = "SELECT codigo, descripcion, precio, stock from Productos";
 
-            } catch (SQLException e) {
-                int i = 0;
-                if (callback != null) callback.onError(e.getMessage() != null ? e.getMessage() : "Error SQL desconocido");
-            } catch (Exception e) {
-                int i = 0;
-                if (callback != null) callback.onError(e.getMessage() != null ? e.getMessage() : "Error de conexión o de Java: " + e.toString());
-            } finally {
-                try {
-                    if (rs != null) rs.close();
-                } catch (SQLException ignored) {
-                }
-                try {
-                    if (pstmt != null)
-                        pstmt.close();
-                } catch (SQLException ignored) {
-                }
-                try {
-                    if (conn != null) conn.close();
-                } catch (SQLException ignored) {
-                }
-            }
-        });
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+        while (rs.next()) {
+            listaResultado.add(new Producto(rs.getString("codigo"),
+                    rs.getString("descripcion"),
+                    rs.getDouble("precio"),
+                    rs.getInt("stock")));
+        }
+
+
+        // Productos Perecederos
+        sql = "SELECT codigo, descripcion, precio, stock, fecha_caducidad from Productos";
+        rs = stmt.executeQuery(sql);
+        while (rs.next()) {
+            listaResultado.add(new ProductoPerecedero(rs.getString("codigo"),
+                    rs.getString("descripcion"),
+                    rs.getDouble("precio"),
+                    rs.getInt("stock"),
+                    rs.getString("fecha_caducidad")
+            ));
+        }
+        if (rs!=null) rs.close();
+        if (stmt!=null) stmt.close();
+        if (conn != null) conn.close();
+
+        return listaResultado;
+
     }
+
+    public List<Producto> buscarPorCodigo(String codigo) throws SQLException,ClassNotFoundException {
+
+        Connection conn = null;
+        List<Producto> listaResultado = new ArrayList<>();
+
+        conn = ConexionDB.getConnection();
+
+        // Productos normales
+        String sql = "SELECT codigo, descripcion, precio, stock from Productos where codigo LIKE ?";
+
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1,"%"+codigo+"%");
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            listaResultado.add(new Producto(rs.getString("codigo"),
+                    rs.getString("descripcion"),
+                    rs.getDouble("precio"),
+                    rs.getInt("stock")));
+        }
+
+
+        // Productos Perecederos
+        sql = "SELECT codigo, descripcion, precio, stock, fecha_caducidad from Productos where codigo LIKE ?";
+        stmt = conn.prepareStatement(sql);
+        stmt.setString(1,"%"+codigo+"%");
+        rs = stmt.executeQuery();
+        while (rs.next()) {
+            listaResultado.add(new ProductoPerecedero(rs.getString("codigo"),
+                    rs.getString("descripcion"),
+                    rs.getDouble("precio"),
+                    rs.getInt("stock"),
+                    rs.getString("fecha_caducidad")
+            ));
+        }
+        if (rs!=null) rs.close();
+        if (stmt!=null) stmt.close();
+        if (conn != null) conn.close();
+
+        return listaResultado;
+
+    }
+
+
+
+
 
     //Esta función es la que implementa realmente el acceso y el insert
-    public void insertarProducto(final String codigo, final String descripcion,
-                                 final double precio, final int stock,
-                                 final OnBBDDCallback callback) {
-        //El código a ejecutar, se lo pasamos al sistema con una Lambda
-        executorService.execute(() -> {
-            Connection conn = null;
-            PreparedStatement pstmt = null;
-            try {
-                // Cargar el driver (necesario en algunas versiones de Android)
-                Class.forName("com.mysql.jdbc.Driver");
-                conn = DriverManager.getConnection(URL, USER, PASS);
-                String sql = "INSERT INTO Productos"
+    public void insertarProducto(Producto p) throws SQLException,ClassNotFoundException {
 
-                        + " (codigo, descripcion, precio, stock) VALUES (?, ?, ?, ?)";
+        PreparedStatement pstmt = null;
+        Connection conn = ConexionDB.getConnection();
 
-                pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1, codigo);
-                pstmt.setString(2, descripcion);
-                pstmt.setDouble(3, precio);
-                pstmt.setInt(4, stock);
+        String tabla = "Productos";
+        String values = " (codigo, descripcion, precio, stock) VALUES (?, ?, ?, ?)";
+        if (p instanceof ProductoPerecedero) {
+            tabla = "ProductosPerecederos";
+            values = " (codigo, descripcion, precio, stock, fecha) VALUES (?, ?, ?, ?, ?)";
+        }
+        String sql = "INSERT INTO " + tabla + values;
 
-                pstmt.executeUpdate();
-                // Si todo sale bien, notificamos al hilo principal
-                if (callback != null) callback.onSuccess(null);
-            } catch (Exception e) {
-                if (callback != null) callback.onError(e.getMessage());
-            } finally {
-                try { if (pstmt != null) pstmt.close(); } catch (SQLException
-                        ignored) {}
-                try { if (conn != null) conn.close(); } catch (SQLException
-                        ignored) {}
-            }
-        });
+
+        pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, p.getCodigoProducto());
+        pstmt.setString(2, p.getDescripcion());
+        pstmt.setDouble(3, p.getPrecio());
+        pstmt.setInt(4, p.getStock());
+
+        if (p instanceof ProductoPerecedero) {
+            pstmt.setString(5,((ProductoPerecedero)p).getFechaCaducidad());
+        }
+
+        pstmt.executeUpdate();
     }
 
+
+    /*
     public void insertarProductoP(final String codigo, final String descripcion,
                                  final double precio, final int stock,
                                  final OnBBDDCallback callback) {
@@ -148,5 +175,6 @@ public class BBDDAccess {
             }
         });
     }
+    */
 
 }

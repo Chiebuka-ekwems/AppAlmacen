@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="81de481b-a201-432e-9a12-4b3473b853ca" name="Changes" comment="Intento cambiar el index.jsp y que se vea reflejado en la web">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/model/Producto.java" afterDir="false" />
+    <list default="true" id="81de481b-a201-432e-9a12-4b3473b853ca" name="Changes" comment="Empiezo a pasar cosas a la rama servlets">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/Controller/Controlador.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/Controller/DataAccess.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/dataservice/ConexionDB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/view/ListarProductosServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/dataservice/BBDDAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/dataservice/BBDDAccess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/dataservice/DataAccess_Old.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,12 +19,13 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="9" />
+    <option name="cachedIndexableFilesCount" value="19" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -31,6 +36,9 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$USER_HOME$/.gradle/jdks/eclipse_adoptium-17-amd64-windows.2/lib/src.zip!/java.base/java/util/Comparator.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">
     <commands />
@@ -59,6 +67,7 @@
     &quot;git-widget-placeholder&quot;: &quot;servletes&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/chiebuka/AndroidStudioProjects/AppAlmacen/servlets/src/main/java/com/politecnicomalaga/appalmacen/dataservice&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -71,6 +80,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\chiebuka\AndroidStudioProjects\AppAlmacen\servlets\src\main\java\com\politecnicomalaga\appalmacen\dataservice" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Catalina" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
       <option name="UPDATING_POLICY" value="restart-server" />
@@ -171,6 +185,7 @@
       <workItem from="1776765135805" duration="3787000" />
       <workItem from="1776792156422" duration="5483000" />
       <workItem from="1776839141718" duration="411000" />
+      <workItem from="1777232270292" duration="25000" />
     </task>
     <task id="LOCAL-00001" summary="Intento poner en marcha los servlets">
       <option name="closed" value="true" />
@@ -188,7 +203,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776795006364</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Empiezo a pasar cosas a la rama servlets">
+      <option name="closed" value="true" />
+      <created>1776932777837</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1776932777839</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -197,6 +220,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Intento poner en marcha los servlets" />
     <MESSAGE value="Intento cambiar el index.jsp y que se vea reflejado en la web" />
-    <option name="LAST_COMMIT_MESSAGE" value="Intento cambiar el index.jsp y que se vea reflejado en la web" />
+    <MESSAGE value="Empiezo a pasar cosas a la rama servlets" />
+    <option name="LAST_COMMIT_MESSAGE" value="Empiezo a pasar cosas a la rama servlets" />
   </component>
 </project>
