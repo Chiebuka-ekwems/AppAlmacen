@@ -1,12 +1,15 @@
 // Archivo: webapp/js/app.js
 
 function insertarProducto() {
-    // Recoger los valores del formulario
+    // 1. Recoger los valores usando los IDs exactos de tu index.jsp
     const codigo = document.getElementById("addCodigo").value;
     const desc = document.getElementById("addDesc").value;
     const precio = document.getElementById("addPrecio").value;
     const stock = document.getElementById("addStock").value;
-    const fechaCaducidad = document.getElementById("fechaCaducidad").value;
+
+    // CORRECCIÓN: Buscamos el ID "addFechaCad" que es el que tienes en el HTML
+    const fechaInput = document.getElementById("addFechaCad");
+    const fechaCaducidad = fechaInput ? fechaInput.value : "";
 
     // Validación básica
     if (!codigo || !desc || !precio || !stock) {
@@ -14,38 +17,38 @@ function insertarProducto() {
         return;
     }
 
-    // Construir la URL con los parámetros
+    // 2. Construir la URL
     let url = `insertar?codigo=${encodeURIComponent(codigo)}&descripcion=${encodeURIComponent(desc)}&precio=${encodeURIComponent(precio)}&stock=${encodeURIComponent(stock)}`;
 
-    // Si se ha introducido fecha, la añadimos a la URL para que se guarde como producto perecedero
-    if (fechaCaducidad) {
+    // Si hay fecha, la añadimos (tu Servlet espera "fechaCaducidad")
+    if (fechaCaducidad && fechaCaducidad.trim() !== "") {
         url += `&fechaCaducidad=${encodeURIComponent(fechaCaducidad)}`;
     }
 
     console.log("Enviando petición a:", url);
 
-    // Hacer la petición GET al servlet
+    // 3. Hacer la petición
     fetch(url)
         .then(response => {
             if (!response.ok) throw new Error("Error en la respuesta del servidor");
-            return response.json();
+            // CORRECCIÓN: Usamos .text() porque el Servlet devuelve un String entre llaves, no un JSON estricto
+            return response.text();
         })
         .then(data => {
             console.log("Respuesta del servidor:", data);
-            alert("Producto añadido correctamente.");
 
-            // Recargar la tabla para mostrar el nuevo producto
+            // Limpiamos el texto de las llaves que manda tu Servlet
+            const mensaje = data.replace(/^\{|\}$/g, "");
+            alert("Respuesta: " + mensaje);
+
+            // Recargar la tabla y limpiar formulario
             cargarProductos();
-
-            // Limpiar el formulario
             document.getElementById("formAdd").reset();
         })
         .catch(error => {
             console.error('Error al insertar:', error);
             alert("Hubo un error al añadir el producto.");
         });
-
-
 }
 
 // Esperar a que el documento HTML cargue por completo

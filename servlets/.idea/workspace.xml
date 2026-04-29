@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="81de481b-a201-432e-9a12-4b3473b853ca" name="Changes" comment="Cuando le doy a insertar producto no hace nada...">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/view/InsertarProductosServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/view/InsertarProductosServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/dataservice/BBDDAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/dataservice/BBDDAccess.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/app.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -260,7 +260,23 @@
       <option name="project" value="LOCAL" />
       <updated>1777455678712</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Cuando le doy a insertar producto no hace nada...">
+      <option name="closed" value="true" />
+      <created>1777462234035</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1777462234035</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Cuando le doy a insertar producto no hace nada...">
+      <option name="closed" value="true" />
+      <created>1777462244048</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1777462244048</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

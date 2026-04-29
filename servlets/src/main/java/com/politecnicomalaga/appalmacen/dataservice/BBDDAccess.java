@@ -121,7 +121,7 @@ public class BBDDAccess {
         String values = " (codigo, descripcion, precio, stock) VALUES (?, ?, ?, ?)";
         if (p instanceof ProductoPerecedero) {
             tabla = "ProductosPerecederos";
-            values = " (codigo, descripcion, precio, stock, fecha) VALUES (?, ?, ?, ?, ?)";
+            values = " (codigo, descripcion, precio, stock, fecha_caducidad) VALUES (?, ?, ?, ?, ?)";
         }
         String sql = "INSERT INTO " + tabla + values;
 
