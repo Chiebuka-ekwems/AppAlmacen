@@ -6,7 +6,7 @@ function insertarProducto() {
     const desc = document.getElementById("addDesc").value;
     const precio = document.getElementById("addPrecio").value;
     const stock = document.getElementById("addStock").value;
-    const fechaCad = document.getElementById("addFechaCad").value;
+    const fechaCaducidad = document.getElementById("fechaCaducidad").value;
 
     // Validación básica
     if (!codigo || !desc || !precio || !stock) {
@@ -18,8 +18,8 @@ function insertarProducto() {
     let url = `insertar?codigo=${encodeURIComponent(codigo)}&descripcion=${encodeURIComponent(desc)}&precio=${encodeURIComponent(precio)}&stock=${encodeURIComponent(stock)}`;
 
     // Si se ha introducido fecha, la añadimos a la URL para que se guarde como producto perecedero
-    if (fechaCad) {
-        url += `&fechaCad=${encodeURIComponent(fechaCad)}`;
+    if (fechaCaducidad) {
+        url += `&fechaCaducidad=${encodeURIComponent(fechaCaducidad)}`;
     }
 
     console.log("Enviando petición a:", url);
