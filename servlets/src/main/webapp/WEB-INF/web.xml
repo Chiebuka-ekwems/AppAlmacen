@@ -14,5 +14,14 @@
     <url-pattern>/listar</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>InsertarProductosServlet</servlet-name>
+    <servlet-class>com.politecnicomalaga.appalmacen.view.InsertarProductosServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>InsertarProductosServlet</servlet-name>
+    <url-pattern>/insertar</url-pattern>
+  </servlet-mapping>
+
 
 </web-app>
