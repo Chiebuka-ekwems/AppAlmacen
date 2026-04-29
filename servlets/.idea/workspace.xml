@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="81de481b-a201-432e-9a12-4b3473b853ca" name="Changes" comment="Ya funciona el insertar commit antes de pasar a usar android enlazado con tomcat">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/view/BuscarProductosServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/dataservice/ConexionDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/dataservice/ConexionDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
-    </list>
+    <list default="true" id="81de481b-a201-432e-9a12-4b3473b853ca" name="Changes" comment="Ultimos retoques antes de pasar de vuelta a android con okhttp" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -285,7 +281,23 @@
       <option name="project" value="LOCAL" />
       <updated>1777483416486</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Ultimos retoques antes de pasar de vuelta a android con okhttp">
+      <option name="closed" value="true" />
+      <created>1777484089839</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1777484089839</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Ultimos retoques antes de pasar de vuelta a android con okhttp">
+      <option name="closed" value="true" />
+      <created>1777484436975</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1777484436975</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -302,6 +314,7 @@
     <MESSAGE value="Pongo el codigo javascript para probar si funciona" />
     <MESSAGE value="Cuando le doy a insertar producto no hace nada..." />
     <MESSAGE value="Ya funciona el insertar commit antes de pasar a usar android enlazado con tomcat" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ya funciona el insertar commit antes de pasar a usar android enlazado con tomcat" />
+    <MESSAGE value="Ultimos retoques antes de pasar de vuelta a android con okhttp" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ultimos retoques antes de pasar de vuelta a android con okhttp" />
   </component>
 </project>
