@@ -2,12 +2,16 @@ package com.politecnicomalaga.appalmacen.controller;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.politecnicomalaga.appalmacen.MainActivity;
 import com.politecnicomalaga.appalmacen.dataservice.BBDDAccess;
 import com.politecnicomalaga.appalmacen.model.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
@@ -41,7 +45,7 @@ public class Controlador
     {
         this.contextApp = contexto;
 
-        BBDDAccess miBBDD = new BBDDAccess();
+        //BBDDAccess miBBDD = new BBDDAccess();
         List<Producto> listaDeProductosInicial = DataAccess.loadData();    
         //Poner código aquí para que la lista inicial de productos esté
         //siempre disponible cuando se arranca el programa.
@@ -50,6 +54,27 @@ public class Controlador
         misProductosR = new ArrayList<Producto>();
         //AHora cogeremos los productos desde una base de datos aun no esta el codigo hecho
 
+
+    }
+
+    public void setData(String jsonData, boolean error) {
+
+        try {
+            JsonParser.parseString(jsonData);
+            //si estamos aquí, es un json
+        } catch (JsonSyntaxException e) {
+            error = true; //se que no tengo un json
+        }
+
+        if (!error) {
+            misProductosA.clear();
+            Type tipoListaProductos = new TypeToken<List<Producto>>() {
+            }.getType();
+            misProductosA = (new Gson().fromJson(jsonData, tipoListaProductos));
+            this.pantallaActiva.reaccionar("");
+        } else {
+            this.pantallaActiva.reaccionar("Error de acceso a Backend " + jsonData);
+        }
 
     }
 
@@ -80,43 +105,8 @@ public class Controlador
 
         dataResult.clear();
 
-        BBDDAccess miBBDD = new BBDDAccess();
-        miBBDD.listarTodos(new BBDDAccess.OnBBDDCallback() {
-            @Override
-            public void onSuccess(List<Producto> data) {
-                //Actualizamos el modelo
-                misProductosA.clear();
-                misProductosA.addAll(data);
-                //misProductosA = data;
-                //Convertir una lista de productos en una lista de maps
-                for(Producto p: data) {
-                    Map<String,String> productoMapeado = new HashMap<>();
-                    productoMapeado.put("d",p.getDescripcion());
-                    productoMapeado.put("p",String.valueOf(p.getPrecio()));
-                    productoMapeado.put("s",String.valueOf(p.getStock()));
-                    productoMapeado.put("c",p.getCodigoProducto());
-                    dataResult.add(productoMapeado);
-                    //Avisar AHORA (estoy en el futuro!!!!!)
-                    // al controlador y a la activity (Vista)
-
-                }
-                if (pantallaActiva != null) {
-                    // Cast a Activity para poder usar runOnUiThread y actualizar la lista visualmente
-                    ((android.app.Activity) pantallaActiva).runOnUiThread(() -> {
-                        pantallaActiva.reaccionar(""); // Mensaje vacío significa "Éxito"
-                    });
-                }
-            }
-
-            @Override
-            public void onError(String error) {
-                if (pantallaActiva != null) {
-                    ((android.app.Activity) pantallaActiva).runOnUiThread(()->{
-                        pantallaActiva.reaccionar(error);
-                    });
-                }
-            }
-        });
+        BBDDAccess miBBDD = new BBDDAccess(this);
+        miBBDD.listarTodos();
 
 
     }
@@ -401,53 +391,20 @@ public class Controlador
         }
         return null;
     }
-    
-
-
-    public boolean addProductoN (String jsonRecibido){
-        BBDDAccess miBBDD = new BBDDAccess();
-        //Pongo el try catch por si me pasan menos datos de los que son
-        try{
-            Gson gson = new Gson();
-
-            Producto p = gson.fromJson(jsonRecibido, Producto.class);
 
 
 
-            for(Producto pro: misProductosA){
-                if(pro.getCodigoProducto().equals(p.getCodigoProducto()))return false;
-            }
+    public void addProduct(Map<String,String> datos) {
 
-            boolean resultado =misProductosA.add(p);
-            if (resultado) {
+        boolean resultado = true;
 
-                miBBDD.insertarProducto(p.getCodigoProducto(), p.getDescripcion(), p.getPrecio(), p.getStock(), new BBDDAccess.OnBBDDCallback() {
-                    @Override
-                    public void onSuccess(List<Producto> data) {
+        Producto p = new Producto(datos.get("code"),datos.get("descripcion"),Double.parseDouble(datos.get("precio")),Integer.parseInt(datos.get("stock")));
 
-
-                    }
-
-                    @Override
-                    public void onError(String error) {
-                        /*miPantalla.runOnUiThread(()->{
-                            miPantalla.reaccionar(error);
-                        });*/
-                        //Puede que aun falte
-                        if(pantallaActiva!=null) pantallaActiva.reaccionar(error);
-                    }
-                });
-                if (!resultado) {
-                    misProductosA.remove(p);
-                }
-            }
-            return true;
-        } catch (Exception e){
-            System.out.println("Error. Revisa el formato de los datos.");
-            System.out.println("Detalle: " + e.getMessage());
-            return false;
+        resultado = misProductosA.add(p);
+        if (resultado) {
+            BBDDAccess miBBDD = new BBDDAccess(this);
+            miBBDD.insertarProducto(datos.get("code"), datos.get("descripcion"), Double.parseDouble(datos.get("precio")), Integer.parseInt(datos.get("stock")));
         }
-
     }
 
     

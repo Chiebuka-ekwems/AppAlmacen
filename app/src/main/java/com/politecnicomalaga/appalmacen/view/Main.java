@@ -244,9 +244,9 @@ public class Main
         csv+= sc.nextInt();
         //sc.nextLine();
         
-        boolean creado = Controlador.getSingleton().addProductoN(csv);
-        if(creado) println("Producto añadido con exito");
-        else println("Error al añadir producto");
+        //boolean creado = Controlador.getSingleton().addProductoN(csv);
+        //if(creado) println("Producto añadido con exito");
+        //else println("Error al añadir producto");
     }
     
     public static void addProductoP (Scanner sc){

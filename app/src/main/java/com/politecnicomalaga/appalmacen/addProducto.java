@@ -17,6 +17,9 @@ import com.politecnicomalaga.appalmacen.controller.Controlador;
 
 import com.politecnicomalaga.appalmacen.controller.PantallaReaccionable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class addProducto extends AppCompatActivity implements PantallaReaccionable {
 
     private EditText etCodigo, etDescripcion, etPrecio, etStock;
@@ -77,24 +80,25 @@ public class addProducto extends AppCompatActivity implements PantallaReaccionab
 
 
         //Formato mapa
-        /*Map<String, String> datos = new HashMap<>();
+        Map<String, String> datos = new HashMap<>();
         datos.put("codigo", codigo);
         datos.put("descripcion", desc);
         datos.put("precio", precio);
-        datos.put("stock", stock);*/
+        datos.put("stock", stock);
 
         // Formateamos el string CSV como lo espera tu Controlador.addProductoN
         //String csv = codigo + ";" + desc + ";" + precio + ";" + stock;
 
         // Llamamos al controlador
-        boolean exito = Controlador.getSingleton().addProductoN(jsonFinal);
+        Controlador.getSingleton().addProduct(datos);
 
+        /*
         if (exito) {
             Toast.makeText(this, "Producto añadido con éxito", Toast.LENGTH_SHORT).show();
             finish(); // Cerramos la actividad y volvemos atrás
             //Actualizar la vista
         } else {
             Toast.makeText(this, "Error: El código ya existe o el formato es incorrecto", Toast.LENGTH_LONG).show();
-        }
+        }*/
     }
 }

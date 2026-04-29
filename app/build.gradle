@@ -37,6 +37,7 @@ dependencies {
     implementation ("mysql:mysql-connector-java:5.1.49")
     //implementation("mysql:mysql-connector-java:8.0.33")
     implementation("com.google.code.gson:gson:2.13.2")
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     implementation libs.appcompat
     implementation libs.material
     implementation libs.activity
