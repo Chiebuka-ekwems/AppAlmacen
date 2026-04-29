@@ -16,21 +16,21 @@ public class InsertarProductosServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String codigo = request.getParameter("codigo");
+        String codigoProducto = request.getParameter("codigo");
         String descripcion = request.getParameter("descripcion");
         String precio = request.getParameter("precio");
         String stock = request.getParameter("stock");
-        String fecha = request.getParameter("fechaCad");
-        boolean bExpired = (fecha!=null);
+        String fechaCaducidad = request.getParameter("fechaCaducidad");
+        boolean bExpired = (fechaCaducidad!=null);
 
         Map<String,String> miJsonMap = new HashMap<>();
 
-        miJsonMap.put("codigo",codigo);
+        miJsonMap.put("codigoProducto",codigoProducto);
         miJsonMap.put("descripcion",descripcion);
         miJsonMap.put("stock",stock);
         miJsonMap.put("precio",precio);
         if (bExpired) {
-            miJsonMap.put("fechaCad",fecha);
+            miJsonMap.put("fechaCaducidad",fechaCaducidad);
         }
 
         Gson gson = new Gson();
