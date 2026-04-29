@@ -33,7 +33,7 @@ public class BBDDAccess {
     //esté disponible, la mandamos al hilo de la GUI
 
     private Controlador c;
-    private static final String IP = "10.0.2.2:8080";
+    private static final String IP = "192.168.1.6:8080";
     public BBDDAccess(Controlador c) {
         this.c = c;
     }
@@ -120,6 +120,22 @@ public class BBDDAccess {
         //Añadimos parámetros al GET
         URL += "?codigo=" + code + "&descripcion=" + desc + "&precio=" + precio + "&stock=" + stock;
         OkHttpClient clientHTTP = new OkHttpClient();
+
+        /*
+        * En esta version no se puede poner espacios en la url ya que lanza una excepcion
+        * // 1. Usamos HttpUrl.Builder para construir la URL de manera segura e incluir /servlets_war/
+        HttpUrl.Builder urlBuilder = HttpUrl.parse("http://" + IP + "/servlets_war/insertar").newBuilder();
+
+        // 2. Añadimos los parámetros. Esto codificará los espacios y símbolos automáticamente
+        urlBuilder.addQueryParameter("codigo", code);
+        urlBuilder.addQueryParameter("descripcion", desc);
+        urlBuilder.addQueryParameter("precio", String.valueOf(precio));
+        urlBuilder.addQueryParameter("stock", String.valueOf(stock));
+
+        // Generamos la URL final en formato String
+        String urlFinal = urlBuilder.build().toString();
+        *Asi quedaria corregido pero no lo voya implementar por ahora
+        * */
 
         //Petición a realizar al cliente HTTP. Patrón de diseño "Builder". Es decir "poco a poco"
         Request request = new Request.Builder()

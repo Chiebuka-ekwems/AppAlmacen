@@ -30,6 +30,8 @@ public class addProducto extends AppCompatActivity implements PantallaReaccionab
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_producto);
         Controlador.getSingleton(this);
+        Controlador.getSingleton().setPantalla(this);
+
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -90,15 +92,15 @@ public class addProducto extends AppCompatActivity implements PantallaReaccionab
         //String csv = codigo + ";" + desc + ";" + precio + ";" + stock;
 
         // Llamamos al controlador
-        Controlador.getSingleton().addProduct(datos);
+        boolean exito = Controlador.getSingleton().addProduct(datos);
 
-        /*
+
         if (exito) {
             Toast.makeText(this, "Producto añadido con éxito", Toast.LENGTH_SHORT).show();
             finish(); // Cerramos la actividad y volvemos atrás
             //Actualizar la vista
         } else {
             Toast.makeText(this, "Error: El código ya existe o el formato es incorrecto", Toast.LENGTH_LONG).show();
-        }*/
+        }
     }
 }

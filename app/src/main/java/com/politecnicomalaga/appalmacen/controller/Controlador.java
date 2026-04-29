@@ -394,17 +394,21 @@ public class Controlador
 
 
 
-    public void addProduct(Map<String,String> datos) {
+    public boolean addProduct(Map<String,String> datos) {
 
         boolean resultado = true;
 
-        Producto p = new Producto(datos.get("code"),datos.get("descripcion"),Double.parseDouble(datos.get("precio")),Integer.parseInt(datos.get("stock")));
+        Producto p = new Producto(datos.get("codigo"),datos.get("descripcion"),Double.parseDouble(datos.get("precio")),Integer.parseInt(datos.get("stock")));
 
         resultado = misProductosA.add(p);
         if (resultado) {
             BBDDAccess miBBDD = new BBDDAccess(this);
-            miBBDD.insertarProducto(datos.get("code"), datos.get("descripcion"), Double.parseDouble(datos.get("precio")), Integer.parseInt(datos.get("stock")));
+            miBBDD.insertarProducto(datos.get("codigo"), datos.get("descripcion"), Double.parseDouble(datos.get("precio")), Integer.parseInt(datos.get("stock")));
         }
+        if(p!=null){
+            return true;
+        }
+        return false;
     }
 
     
