@@ -48,6 +48,18 @@ function insertarProducto() {
 
 }
 
+// Esperar a que el documento HTML cargue por completo
+document.addEventListener("DOMContentLoaded", function() {
+
+    // Buscar el botón por su ID y decirle que escuche el evento 'click'
+    const btnAnadir = document.getElementById("btnAnadir");
+
+    if (btnAnadir) {
+        btnAnadir.addEventListener("click", insertarProducto);
+    }
+
+});
+
 
 function cargarProductos() {
     console.log("Cargando productos...");

@@ -22,7 +22,7 @@
             <div class="form-group"><label for="addStock">Stock:</label><input type="number" id="addStock" required></div>
             <div class="form-group"><label for="addFechaCad">Fecha de Caducidad (Opcional):</label><input type="date" id="addFechaCad"></div>
 
-            <button type="button" onclick="insertarProducto()">Añadir Producto</button>
+            <button type="button" id="btnAnadir">Añadir Producto</button>
         </form>
     </div>
 
