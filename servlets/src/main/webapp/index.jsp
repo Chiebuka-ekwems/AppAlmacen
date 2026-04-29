@@ -20,7 +20,9 @@
             <div class="form-group"><label for="addDesc">Descripción:</label><input type="text" id="addDesc" required></div>
             <div class="form-group"><label for="addPrecio">Precio:</label><input type="number" id="addPrecio" step="0.01" required></div>
             <div class="form-group"><label for="addStock">Stock:</label><input type="number" id="addStock" required></div>
-            <button type="button">Añadir Producto</button>
+            <div class="form-group"><label for="addFechaCad">Fecha de Caducidad (Opcional):</label><input type="date" id="addFechaCad"></div>
+
+            <button type="button" onclick="insertarProducto()">Añadir Producto</button>
         </form>
     </div>
 

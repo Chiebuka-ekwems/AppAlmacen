@@ -1,5 +1,54 @@
 // Archivo: webapp/js/app.js
 
+function insertarProducto() {
+    // Recoger los valores del formulario
+    const codigo = document.getElementById("addCodigo").value;
+    const desc = document.getElementById("addDesc").value;
+    const precio = document.getElementById("addPrecio").value;
+    const stock = document.getElementById("addStock").value;
+    const fechaCad = document.getElementById("addFechaCad").value;
+
+    // Validación básica
+    if (!codigo || !desc || !precio || !stock) {
+        alert("Por favor, rellena todos los campos obligatorios.");
+        return;
+    }
+
+    // Construir la URL con los parámetros
+    let url = `insertar?codigo=${encodeURIComponent(codigo)}&descripcion=${encodeURIComponent(desc)}&precio=${encodeURIComponent(precio)}&stock=${encodeURIComponent(stock)}`;
+
+    // Si se ha introducido fecha, la añadimos a la URL para que se guarde como producto perecedero
+    if (fechaCad) {
+        url += `&fechaCad=${encodeURIComponent(fechaCad)}`;
+    }
+
+    console.log("Enviando petición a:", url);
+
+    // Hacer la petición GET al servlet
+    fetch(url)
+        .then(response => {
+            if (!response.ok) throw new Error("Error en la respuesta del servidor");
+            return response.json();
+        })
+        .then(data => {
+            console.log("Respuesta del servidor:", data);
+            alert("Producto añadido correctamente.");
+
+            // Recargar la tabla para mostrar el nuevo producto
+            cargarProductos();
+
+            // Limpiar el formulario
+            document.getElementById("formAdd").reset();
+        })
+        .catch(error => {
+            console.error('Error al insertar:', error);
+            alert("Hubo un error al añadir el producto.");
+        });
+
+
+}
+
+
 function cargarProductos() {
     console.log("Cargando productos...");
     fetch('listar')

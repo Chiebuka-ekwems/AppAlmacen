@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="81de481b-a201-432e-9a12-4b3473b853ca" name="Changes" comment="Ya se me listan los productos">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/politecnicomalaga/appalmacen/view/InsertarProductosServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+    <list default="true" id="81de481b-a201-432e-9a12-4b3473b853ca" name="Changes" comment="Empiezo ha hacer las preparaciones para insertar productos">
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -237,7 +235,15 @@
       <option name="project" value="LOCAL" />
       <updated>1777407617424</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Empiezo ha hacer las preparaciones para insertar productos">
+      <option name="closed" value="true" />
+      <created>1777446643344</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1777446643344</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -250,6 +256,7 @@
     <MESSAGE value="Ajusto el codigo para empezar a probar el mapeo de botones por ahora solo el listar Todos desde la web" />
     <MESSAGE value="Me lista al poner listar en la url pero no el boton" />
     <MESSAGE value="Ya se me listan los productos" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ya se me listan los productos" />
+    <MESSAGE value="Empiezo ha hacer las preparaciones para insertar productos" />
+    <option name="LAST_COMMIT_MESSAGE" value="Empiezo ha hacer las preparaciones para insertar productos" />
   </component>
 </project>
