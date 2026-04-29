@@ -87,7 +87,7 @@ public class BBDDAccess {
 
 
         // Productos Perecederos
-        sql = "SELECT codigo, descripcion, precio, stock, fecha_caducidad from Productos where codigo LIKE ?";
+        sql = "SELECT codigo, descripcion, precio, stock, fecha_caducidad from ProductosPerecederos where codigo LIKE ?";
         stmt = conn.prepareStatement(sql);
         stmt.setString(1,"%"+codigo+"%");
         rs = stmt.executeQuery();
